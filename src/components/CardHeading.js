@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Skeleton from 'react-loading-skeleton'
 
 export default function CardHeading({ type, value, subVal, info }) {

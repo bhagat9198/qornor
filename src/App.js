@@ -38,7 +38,7 @@ function App() {
       toast.error('Please in mobile mode');
       toast.info('Site best seen in mobile view');
     }
-  }, [window.innerWidth])
+  }, [])
 
   useEffect(() => {
     fetch(`${BASE_URL}?startDate=${date.startDate}&endDate=${date.endDate}`).then(rawRes => {

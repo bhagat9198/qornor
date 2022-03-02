@@ -3,7 +3,7 @@ import ApexCharts from './ApexCharts'
 import CardHeading from './CardHeading'
 import CardOutline from './CardOutline';
 
-export default function Card({ type, data, toggleDropdown }) {
+export default function Card({ type, data }) {
   // console.log('Card :: data ::', data);
   const [seriesX, setSeriesX] = useState([]);
   const [seriesY, setSeriesY] = useState([]);
