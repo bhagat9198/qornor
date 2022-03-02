@@ -4,11 +4,13 @@ import Header from './containers/Header';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-loading-skeleton/dist/skeleton.css'
+import Footer from './containers/Footer';
 
 
 const BASE_URL = `https://qorner-mock-server.herokuapp.com/stats`;
 
 function App() {
+  // const [dimestion]
   const [data, setData] = useState({
     revenueDetails: null,
     reachAndEngagementDetails: null,
@@ -27,6 +29,16 @@ function App() {
     status: 'hidden'
   })
 
+
+  useEffect(() => {
+    const w = window.innerWidth;
+    // const h = window.innerHeight;
+    // console.log(w, h);
+    if(w > 450) {
+      toast.error('Please in mobile mode');
+      toast.info('Site best seen in mobile view');
+    }
+  }, [window.innerWidth])
 
   useEffect(() => {
     fetch(`${BASE_URL}?startDate=${date.startDate}&endDate=${date.endDate}`).then(rawRes => {
@@ -75,6 +87,7 @@ function App() {
       />
       <Header data={data.metadata} />
       <Body date={date} setDate={setDate} data={data} toggleDropdown={toggleDropdown} setToggleDropdown={setToggleDropdown} />
+      <Footer />
     </>
 
   )

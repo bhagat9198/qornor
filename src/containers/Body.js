@@ -53,7 +53,7 @@ export default function Body({ date, setDate, data, setToggleDropdown, toggleDro
 
   return (
     <>
-      <div className='px-5  mb-72'>
+      <div className='px-5  mb-64'>
         <div className='flex justify-between'>
           <Heading heading='Summary' date={date} />
           <div className='py-3 '>
