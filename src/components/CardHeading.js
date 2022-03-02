@@ -22,7 +22,7 @@ export default function CardHeading({type, value, subVal, info}) {
     if(value) {
       return value;
     } else {
-      return <Skeleton style={{width: '400%'}} />;
+      return <Skeleton style={{width: '50px'}} />;
     }
   }
 
@@ -55,9 +55,9 @@ export default function CardHeading({type, value, subVal, info}) {
       <div className='mb-7 ' >
         <h4 style={{height: '20px', fontWeight: 600, fontSize: '15px', lineHeight: '15px' }}>{title || <Skeleton  style={{ width: '40%'}}  />}</h4>
         <div style={{height: '15px', fontWeight: 600, fontSize: '30px', lineHeight: '36px' }} >
-          {type === 'revenue' ? <h1> ₹{typeUI()}<span className='pl-1' style={{fontWeight: 500, fontSize: '18px', lineHeight: '21px'}}>lac</span>  </h1> : null}
-          {type === 'engagement' ? <h1> {typeUI()} <span>M</span> </h1> : null}
-          {type === 'audience' ? <h1>{typeUI()} <span>%</span></h1> : null} 
+          {type === 'revenue' ? <h1 className='flex'> ₹{typeUI()}<span className='pl-1' style={{fontWeight: 500, fontSize: '18px', }}>lac</span>  </h1> : null}
+          {type === 'engagement' ? <h1 className='flex'> {typeUI()} <span className='pl-1' style={{fontWeight: 500, fontSize: '18px', }}>M</span> </h1> : null}
+          {type === 'audience' ? <h1 className='flex'>{typeUI()} <span className='pl-1' style={{fontWeight: 500, fontSize: '18px', }}>%</span></h1> : null} 
           {type === undefined ? <Skeleton style={{width: '20%'}} /> : null} 
         </div>
         <div className='flex mt-8 absolute' style={{fontWeight: 500, fontSize: '10px', lineHeight: "12px"}}>
