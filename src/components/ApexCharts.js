@@ -1,120 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { Rings } from 'react-loader-spinner';
+import { dateData, getDay } from '../utils/dateUtils';
 
 export default function ApexCharts({ type, dataY, dataX }) {
-  console.log('ApexCharts :: dataX :: ', dataX);
-  console.log('ApexCharts :: dataY :: ', dataY);
-
-  // const [formate, setFormate] = useState([]);
-
-  // if(type === 'revenue') {
-  //   setFormate()
-  // } else if(type === 'engagement') {
-
-  // } else if(type === 'audience') {
-
-  // } else {
-  //   // invalid prop
-  // }
-
-  // const series = [
-  //   {
-  //     name: "Series A",
-  //     data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
-  //   },
-  //   {
-  //     name: "Series B",
-  //     data: [4.4, 4, 5.5, .5, 12.5, 102.8, 39.8, 90.6]
-  //   },
-  // ]
-
+  // console.log('ApexCharts :: dataX :: ', dataX);
+  // console.log('ApexCharts :: dataY :: ', dataY);
 
   const optionsStructure = {
     chart: {
       height: 350,
+      width: '100%',
       type: "line",
-      stacked: false
+      // stacked: true,
+      toolbar: {
+        show: false
+      }
     },
     dataLabels: {
       enabled: false
     },
     colors: ["#31E498", "#FF5C00"],
-    // series: [
-    //   {
-    //     name: "Series A",
-    //     data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
-    //   },
-    // ],
     stroke: {
       width: [4, 4]
     },
-    // plotOptions: {
-    //   bar: {
-    //     columnWidth: "80%"
-    //   }
-    // },
     xaxis: {
-      // categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
-      categories: dataX
+      categories: []
     },
     yaxis: [
       {
-        // axisTicks: {
-        //   show: false
-        // },
-        labels: () => {
-          if (dataY.length === 0) return;
+        labels: (() => {
           return {
             style: {
               colors: "#000",
               fontWeight: 'bold',
-              fontSize: 12
+              fontSize: '12px'
             },
             textAnchor: 'middle',
             formatter: function (value) {
-              if (type === 'revenue') {
-                return `₹ ${value}`;
-              } else if (type === 'engagement') {
-                return ` ${value} M`;
-              } else if (type === 'audience') {
-                return ` ${value} %`;
-              } else {
-                // invalid prop
-              }
-
+              return `${value}`
             }
           }
-        },
-
+        })(),
       },
-      // {
-      //   opposite: false,
-      //   axisTicks: {
-      //     show: true
-      //   },
-      //   axisBorder: {
-      //     show: true,
-      //     color: "#247BA0"
-      //   },
-      //   labels: {
-      //     style: {
-      //       colors: "#247BA0"
-      //     }
-      //   },
-
-      // }
     ],
-    // tooltip: {
-    //   shared: false,
-    //   intersect: true,
-    //   x: {
-    //     show: false
-    //   }
-    // },
     legend: {
       horizontalAlign: "bottom",
       offsetX: 40
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true,
+        }
+      }
     },
     noData: {
       text: 'Loading...',
@@ -124,7 +63,7 @@ export default function ApexCharts({ type, dataY, dataX }) {
       offsetY: 0,
       style: {
         color: 'red',
-        fontSize: 14,
+        fontSize: '14px',
         fontFamily: undefined
       },
       yaxis: {
@@ -132,7 +71,7 @@ export default function ApexCharts({ type, dataY, dataX }) {
           style: {
             colors: "#000",
             fontWeight: 'bold',
-            fontSize: 0
+            fontSize: '0px'
           },
         }
       }
@@ -149,33 +88,44 @@ export default function ApexCharts({ type, dataY, dataX }) {
         enabled: true,
         speed: 350
       }
-    }
+    },
+
   }
 
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState(optionsStructure)
 
   useEffect(() => {
-    if (dataY.length > 0) {
-      setSeries(dataY)
-    }
+    if (!type) return;
+    if (dataY.length === 0) return;
+    if (dataX.length === 0) return;
 
-    if (dataX.length > 0 && type) {
-      setOptions(prev => {
-        return {
-          ...prev,
-          xaxis: {
-            categories: dataX
-          },
-          yaxis: [...prev.yaxis,
+    setSeries(dataY)
+
+    const lastIndex = dataX.length - 1;
+    const dupX = dataX.map((v, i) => {
+      if (i === 0 || i === lastIndex) {
+        let { year, month, day } = dateData(v);
+        day = getDay(day);
+        return `${month} ${day}`
+      } else {
+        return ''
+      }
+    })
+    setOptions(prev => {
+      return {
+        ...prev,
+        xaxis: {
+          categories: dupX
+        },
+        yaxis: [
           {
-            labels: () => {
-              if (dataY.length === 0) return;
+            labels: (() => {
               return {
                 style: {
                   colors: "#000",
                   fontWeight: 'bold',
-                  fontSize: 12
+                  fontSize: '12px'
                 },
                 textAnchor: 'middle',
                 formatter: function (value) {
@@ -187,26 +137,30 @@ export default function ApexCharts({ type, dataY, dataX }) {
                     return ` ${value} %`;
                   } else {
                     // invalid prop
+                    return value
                   }
-
                 }
               }
-            },
+            })(),
           },
-          ]
-        }
-      })
-    }
+        ]
+      }
+    })
+
   }, [type, dataY, dataX])
 
-  console.log("ApexCharts :: series ::", series);
-  console.log("ApexCharts :: options ::", options);
+  // console.log("ApexCharts :: series ::", series);
+  // console.log("ApexCharts :: options ::", options);
   return (
     <>
-      {series.length > 0 && options.xaxis.categories.length > 0 ?
-        <Chart options={options} series={series} type="line" width={'100%'} height={'100%'} /> :
-        <Rings ariaLabel="loading-indicator" />
-      }
+      <div className='pt-6'>
+        {series.length > 0 && options.xaxis.categories.length > 0 && type ?
+          <Chart options={options} series={series} type="line" width={'100%'} height={350} /> :
+          <div className='flex items-center justify-center' style={{width: '100%', height: '200px'}}>
+             <Rings ariaLabel="loading-indicator" />
+          </div>
+        }
+      </div>
     </>
   )
 }

@@ -1,29 +1,12 @@
 import React from 'react'
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { dateData, getDay } from '../utils/dateUtils';
 
-const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
 
-const dateData = (date) => {
-  console.log(date);
-  const year = date.split('-')[0];
-  let month = +date.split('-')[1];
-  month = monthNames[month].substring(0, 3)
-  const day = date.split('-')[2];
-  return {year, month, day}
-}
-
-const getDay = day => {
-  if(+day < 10) {
-    day = day.substring(1,2)
-  } 
-  return day;
-}
 
 export default function Heading({ heading, date }) {
-  console.log('Heading :: heading :: date ::', heading, date);
+  // console.log('Heading :: heading :: date ::', heading, date);
 
   let monthName, startDay, endDay, fullYr;
   if(date) {
@@ -39,8 +22,8 @@ export default function Heading({ heading, date }) {
 
   return (
     <div className='py-3'>
-      <p className='font-bold text-lg' style={{fontWeight: '600', fontSize: '14px', lineHeight: '21px'}}>{heading ? heading : <Skeleton />}</p>
-      <p className='' style={{color: '#9A9A9A', fontWeight: '400', fontSize: '12px', lineHeight: '18px'}}>{date ? `${monthName} ${startDay} - ${endDay},${fullYr}` : <Skeleton />}</p>
+      <p className='font-bold text-lg' style={{fontWeight: '600', fontSize: '24px', lineHeight: '26px'}}>{heading ? heading : <Skeleton />}</p>
+      <p className='' style={{color: '#9A9A9A', fontWeight: '400', fontSize: '16px', lineHeight: '18px'}}>{date ? `${monthName} ${startDay} - ${endDay},${fullYr}` : <Skeleton />}</p>
     </div>
   )
 }

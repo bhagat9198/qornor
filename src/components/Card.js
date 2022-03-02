@@ -3,7 +3,8 @@ import ApexCharts from './ApexCharts'
 import CardHeading from './CardHeading'
 import CardOutline from './CardOutline';
 
-export default function Card({ type, data }) {
+export default function Card({ type, data, toggleDropdown }) {
+  // console.log('Card :: data ::', data);
   const [seriesX, setSeriesX] = useState([]);
   const [seriesY, setSeriesY] = useState([]);
   const x = [];
@@ -25,18 +26,24 @@ export default function Card({ type, data }) {
         }
       })
       setSeriesX(x);
+      let name1, name2;
+      if (data.dataFieldMapping.value1 === 'subscribersCount') {
+        name1 = 'Subscribed'
+      }
+      if (data.dataFieldMapping.value2 === 'nonSubscribersCount') {
+        name2 = 'Non Subscribed'
+      }
       setSeriesY([
         {
-          name: data.dataFieldMapping.value1,
+          name: name1,
           data: y1
         },
         {
-          name: data.dataFieldMapping.value2,
+          name: name2,
           data: y2
         }
       ])
     } else if (data !== undefined && (type === 'revenue' || type === 'engagement')) {
-      console.log("Card :: data :: ", data);
       data.data.map(value => {
         if (value.date) {
           x.push(value.date)
@@ -44,7 +51,7 @@ export default function Card({ type, data }) {
         if (value.value1) {
           y1.push(value.value1)
         }
-  
+
       })
       setSeriesX(x);
       setSeriesY([
@@ -64,7 +71,10 @@ export default function Card({ type, data }) {
   return (
     <>
       <CardOutline>
-        <CardHeading />
+        <div className='pl-3 py-4'>
+          <CardHeading info={data?.change?.info} type={type} value={data?.value} subVal={data?.change?.percentage} />
+          <div className='border-b-2  relative top-11' style={{ borderColor: '#DCDCDC' }}></div>
+        </div>
         <ApexCharts type={type} dataY={seriesY} dataX={seriesX} />
       </CardOutline>
     </>

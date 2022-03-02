@@ -1,55 +1,73 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton'
 
-export default function CardHeading({title, type, value, subVal}) {
-  // const [type, setType] = useState(false);
+export default function CardHeading({type, value, subVal, info}) {
+ const infoRef = useRef(null);
 
-  // if(titleType === 'revenue') {
-  //   setType('price')
-  // } else if(titleType === 'engagement') {
-  //   setType('percent')
-  // } else if(titleType === 'audience') {
-  //   setType('views')
-  // } else {
-  //   // invalid prop
-  // }
+  let title= null;
+
+  if (type === 'revenue') {
+    title =  `Estimated Revenue`;
+  } else if (type === 'engagement') {
+    title =  `Views`;
+  } else if (type === 'audience') {
+    title =  `Subscriber views vs total views`;
+  } else {
+    // invalid prop
+    title =  null
+  }
 
   const typeUI = () => {
+    // console.log('CardHeading :: value :: ', value);
     if(value) {
       return value;
     } else {
-      return <Skeleton style={{width: '20%'}} />;
+      return <Skeleton style={{width: '400%'}} />;
     }
   }
 
   const subValUI = () => {
+    // console.log('CardHeading :: subVal :: ', subVal, type);
     if(!subVal) {
-      return <Skeleton style={{ width: '20%'}}  />;
+      return <Skeleton style={{ width: '50px'}}  />;
     } else if(subVal > 0) {
-      return  <p style={{color: '#11AC6A', lineHeight: '12px', fontSize: '10px', fontWeight: 500}}> +${subVal}% </p>;
+      return  <p style={{color: '#11AC6A', fontSize: '15px'}}> +${Math.abs(subVal)}% </p>;
     } else if (subVal < 0) {
-      return  <p style={{color: 'salmon', lineHeight: '12px', fontSize: '10px', fontWeight: 500}} >-${subVal}%</p>
+      return  <p style={{color: 'salmon', fontSize: '15px'}} >-${Math.abs(subVal)}%</p>
     } else if( subVal === 0) {
-      return  <p style={{color: 'gray', lineHeight: '12px', fontSize: '10px', fontWeight: 500}} >${subVal}% </p>
+      return  <p style={{color: 'gray', fontSize: '15px'}} >${subVal}% </p>
     } else {
-      return null;
+      return <Skeleton style={{ width: '50px'}}  />;
+    }
+  }
+
+  const toggleInfoHandler = () => {
+    const allClasses = infoRef.current.className;
+    if(allClasses.includes('hidden')) {
+      infoRef.current.classList.remove('hidden');
+    } else {
+      infoRef.current.classList.add('hidden');
     }
   }
 
   return (
     <>
-      <div>
-        <h4 style={{height: '15px', fontWeight: 600, fontSize: '10px', lineHeight: '15px' }}>{title || <Skeleton  style={{ width: '40%'}}  />}</h4>
-        <div style={{height: '15px', fontWeight: 600, fontSize: '24px', lineHeight: '36px' }} >
-          {type === 'revenue' ? <h1> ₹${typeUI()}<span style={{fontWeight: 500, fontSize: '14px', lineHeight: '21px'}}>lac</span>  </h1> : null}
-          {type === 'engagement' ? <h1> ${typeUI()} <span>M</span> </h1> : null}
-          {type === 'audience' ? <h1>${typeUI()} <span>%</span></h1> : null} 
+      <div className='mb-7 ' >
+        <h4 style={{height: '20px', fontWeight: 600, fontSize: '15px', lineHeight: '15px' }}>{title || <Skeleton  style={{ width: '40%'}}  />}</h4>
+        <div style={{height: '15px', fontWeight: 600, fontSize: '30px', lineHeight: '36px' }} >
+          {type === 'revenue' ? <h1> ₹{typeUI()}<span className='pl-1' style={{fontWeight: 500, fontSize: '18px', lineHeight: '21px'}}>lac</span>  </h1> : null}
+          {type === 'engagement' ? <h1> {typeUI()} <span>M</span> </h1> : null}
+          {type === 'audience' ? <h1>{typeUI()} <span>%</span></h1> : null} 
+          {type === undefined ? <Skeleton style={{width: '20%'}} /> : null} 
         </div>
-        <div className='flex'>
-          {subValUI()}
-          <span className='rotate-180 '>
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        <div className='flex mt-8 absolute' style={{fontWeight: 500, fontSize: '10px', lineHeight: "12px"}}>
+          <span className='pr-2' > {subValUI()} </span>
+          <span className='rotate-180 relative bottom-2 text-gray-400' onClick={toggleInfoHandler}>
+            <i className="fa fa-exclamation-circle " aria-hidden="true" ></i>
           </span>
+          <div ref={infoRef} className='flex items-center justify-center relative top-4 hidden px-2' style={{background: '#EBFFF7', borderRadius: 3, height: '21px'}}>
+            <p style={{fontWeight: 400, fontSize: '10px', }}>{info || <Skeleton />}</p> 
+          </div>
         </div>
       </div>
     </>
