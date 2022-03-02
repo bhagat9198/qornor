@@ -156,8 +156,8 @@ export default function ApexCharts({ type, dataY, dataX }) {
       <div className='pt-6'>
         {series.length > 0 && options.xaxis.categories.length > 0 && type ?
           <Chart options={options} series={series} type="line" width={'100%'} height={350} /> :
-          <div className='flex items-center justify-center' style={{width: '100%', height: '200px'}}>
-             <Rings ariaLabel="loading-indicator" />
+          <div className='flex items-center justify-center' style={{ width: '100%', height: '200px' }}>
+            <Rings ariaLabel="loading-indicator" />
           </div>
         }
       </div>

@@ -30,22 +30,22 @@ function App() {
 
   useEffect(() => {
     fetch(`${BASE_URL}?startDate=${date.startDate}&endDate=${date.endDate}`).then(rawRes => {
-      console.log('Body :: rawRes :: ', rawRes);
-      if(rawRes.status === 200) {
+      // console.log('Body :: rawRes :: ', rawRes);
+      if (rawRes.status === 200) {
         return rawRes.json(rawRes);
       } else {
         // new Error(rawRes)
-        throw(rawRes)
+        throw (rawRes)
       }
     }).then(response => {
-      console.log('App :: main data :: response :: ', response);
+      // console.log('App :: main data :: response :: ', response);
       setData(response);
       toast.success(`Data fetched successfully`)
     }).catch(err => {
       console.log(err);
       const errCode = err.status;
       const errMessage = err.statusText;
-      toast.error(`${errCode} : ${errMessage }`)
+      toast.error(`${errCode} : ${errMessage}`)
     })
 
     const d1 = new Date(date.startDate).getTime();
