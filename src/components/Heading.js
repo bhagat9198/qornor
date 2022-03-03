@@ -1,9 +1,7 @@
 import React from 'react'
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css'
+import PropTypes from 'prop-types'
 import { dateData, getDay } from '../utils/dateUtils';
-
-
 
 export default function Heading({ heading, date }) {
   // console.log('Heading :: heading :: date ::', heading, date);
@@ -27,3 +25,8 @@ export default function Heading({ heading, date }) {
     </div>
   )
 }
+
+Heading.propTypes = {
+  heading: PropTypes.string,
+  date: PropTypes.object,
+} 

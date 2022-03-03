@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function Dropdown({ toggleDropdown, dropdownHandler }) {
 
@@ -28,4 +29,9 @@ export default function Dropdown({ toggleDropdown, dropdownHandler }) {
       </div>
     </>
   )
+}
+
+Dropdown.propTypes = {
+  toggleDropdown: PropTypes.object,
+  dropdownHandler: PropTypes.func,
 }

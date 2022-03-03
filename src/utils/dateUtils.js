@@ -15,4 +15,4 @@ export const getDay = day => {
     day = day.substring(1, 2)
   }
   return day;
-}
+} 

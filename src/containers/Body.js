@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Skeleton from 'react-loading-skeleton';
 import Card from '../components/Card'
 import CardOutline from '../components/CardOutline';
@@ -104,3 +105,11 @@ export default function Body({ date, setDate, data, setToggleDropdown, toggleDro
     </>
   )
 }
+
+Body.propTypes = {
+  date: PropTypes.object,
+  setDate: PropTypes.func,
+  data: PropTypes.object,
+  setToggleDropdown: PropTypes.func,
+  toggleDropdown: PropTypes.object,
+} 

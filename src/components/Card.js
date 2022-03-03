@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+
 import ApexCharts from './ApexCharts'
 import CardHeading from './CardHeading'
 import CardOutline from './CardOutline';
@@ -79,4 +81,9 @@ export default function Card({ type, data }) {
       </CardOutline>
     </>
   )
+}
+
+Card.propTypes = {
+  type: PropTypes.string,
+  data: PropTypes.object,
 }

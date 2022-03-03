@@ -1,5 +1,6 @@
 import React from 'react';
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from 'react-loading-skeleton';
+import PropTypes from 'prop-types'
 import { Rings } from 'react-loader-spinner';
 
 export default function Header({ data }) {
@@ -13,7 +14,7 @@ export default function Header({ data }) {
           </div>
           <div className='text-lg text-white flex items-center justify-center' style={{ width: '100%' }}>
             <p style={{ fontWeight: 600, fontSize: '24px', lineHeight: '22.5px' }}>Youtube Stats</p>
-            <i class="fa-brands fa-youtube text-red-600 ml-2 text-3xl"></i>
+            <i className="fa-brands fa-youtube text-red-600 ml-2 text-3xl"></i>
           </div>
         </div>
         <div className='flex justify-center items-center text-white font-bold bg-black z-100'  >
@@ -38,4 +39,8 @@ export default function Header({ data }) {
       <div className='pt-60' ></div>
     </>
   )
+}
+
+Header.propTypes = {
+  date: PropTypes.object,
 }

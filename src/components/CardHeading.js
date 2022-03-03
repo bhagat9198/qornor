@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import Skeleton from 'react-loading-skeleton'
+import PropTypes from 'prop-types'
 
 export default function CardHeading({ type, value, subVal, info }) {
   const infoRef = useRef(null);
-
   let title = null;
 
   if (type === 'revenue') {
@@ -65,7 +65,7 @@ export default function CardHeading({ type, value, subVal, info }) {
           <span className='rotate-180 relative bottom-2 text-gray-400' onClick={toggleInfoHandler}>
             <i className="fa fa-exclamation-circle " aria-hidden="true" ></i>
           </span>
-          <div ref={infoRef} className='flex items-center justify-center relative top-4 hidden px-2' style={{ background: '#EBFFF7', borderRadius: 3, height: '21px' }}>
+          <div ref={infoRef} className='items-center justify-center relative top-4 hidden px-2' style={{ background: '#EBFFF7', borderRadius: 3, height: '21px' }}>
             <p style={{ fontWeight: 400, fontSize: '10px', }}>{info || <Skeleton />}</p>
           </div>
         </div>
@@ -73,3 +73,10 @@ export default function CardHeading({ type, value, subVal, info }) {
     </>
   )
 }
+
+CardHeading.propTypes = {
+  type: PropTypes.string,
+  value: PropTypes.number,
+  subVal: PropTypes.number,
+  info: PropTypes.string,
+} 

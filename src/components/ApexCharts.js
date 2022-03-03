@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { Rings } from 'react-loader-spinner';
+import PropTypes from 'prop-types'
+
 import { dateData, getDay } from '../utils/dateUtils';
 
 export default function ApexCharts({ type, dataY, dataX }) {
@@ -164,3 +166,9 @@ export default function ApexCharts({ type, dataY, dataX }) {
     </>
   )
 }
+
+ApexCharts.propTypes = {
+  type: PropTypes.string,
+  dataY: PropTypes.array,
+  dataX: PropTypes.array,
+} 

@@ -6,11 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-loading-skeleton/dist/skeleton.css'
 import Footer from './containers/Footer';
 
-
 const BASE_URL = `https://qorner-mock-server.herokuapp.com/stats`;
 
 function App() {
-  // const [dimestion]
   const [data, setData] = useState({
     revenueDetails: null,
     reachAndEngagementDetails: null,
@@ -34,7 +32,7 @@ function App() {
     const w = window.innerWidth;
     // const h = window.innerHeight;
     // console.log(w, h);
-    if(w > 450) {
+    if (w > 450) {
       toast.error('Please in mobile mode');
       toast.info('Site best seen in mobile view');
     }
