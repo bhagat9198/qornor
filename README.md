@@ -42,6 +42,6 @@ In this project `useEffect()` and `useState()` are heavly used by considering th
 Alternate to _chaining of props_, `AppContext` api can be use or `Redux` which is much more powerfull way to store the state and to change the state.
 
 <br />
-Cheers. 🍺
-You are good to go & rock. 🕺💃
+Cheers. 🍺<br />
+You are good to go & rock. 🕺💃 <br />
 Lets see on other side!!! 🤝
