@@ -1,94 +1,62 @@
-import { useEffect, useState } from 'react';
-import Body from './containers/Body';
-import Header from './containers/Header';
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import 'react-loading-skeleton/dist/skeleton.css'
-import Footer from './containers/Footer';
+import { useEffect, useState } from "react";
+import MyApexChart from "./ApexChart";
+import data from './data';
+import "./App.css";
 
-const BASE_URL = `https://qorner-mock-server.herokuapp.com/stats`;
-
-function App() {
-  const [data, setData] = useState({
-    revenueDetails: null,
-    reachAndEngagementDetails: null,
-    audienceDetails: null,
-    summary: null,
-    metadata: null
-  });
-
-  const [date, setDate] = useState({
-    startDate: '2021-01-01',
-    endDate: '2021-01-31',
-  })
-
-  const [toggleDropdown, setToggleDropdown] = useState({
-    value: '',
-    status: 'hidden'
-  })
-
+export default function App() {
+  const [series, setSeries] = useState([])
+  const [startDate, setStartDate] = useState( new Date().getTime() );
+  const [endDate, setEndDate] = useState(new Date().getTime() );
 
   useEffect(() => {
-    const w = window.innerWidth;
-    // const h = window.innerHeight;
-    // console.log(w, h);
-    if (w > 450) {
-      toast.error('Please in mobile mode');
-      toast.info('Site best seen in mobile view');
+    async function asyncFun() {
+      return data;
     }
-  }, [])
+    asyncFun().then(res => {
+      setSeries(res);
+      setStartDate(res[0][0])
+      setEndDate((res[res.length - 1][0]))
 
-  useEffect(() => {
-    fetch(`${BASE_URL}?startDate=${date.startDate}&endDate=${date.endDate}`).then(rawRes => {
-      // console.log('Body :: rawRes :: ', rawRes);
-      if (rawRes.status === 200) {
-        return rawRes.json(rawRes);
-      } else {
-        // new Error(rawRes)
-        throw (rawRes)
-      }
-    }).then(response => {
-      // console.log('App :: main data :: response :: ', response);
-      setData(response);
-      toast.success(`Data fetched successfully`)
     }).catch(err => {
       console.log(err);
-      const errCode = err.status;
-      const errMessage = err.statusText;
-      toast.error(`${errCode} : ${errMessage}`)
     })
 
-    const d1 = new Date(date.startDate).getTime();
-    const d2 = new Date(date.endDate).getTime();
-    const diff = d2 - d1;
-    const days = diff / (60 * 60 * 24 * 1000);
-    setToggleDropdown(prev => {
-      return {
-        ...prev,
-        value: `Last ${days + 1} days`
-      }
-    })
-  }, [date]);
+  }, [])
+  
+  const startDateHandler = e => {
+    setStartDate(new Date(e.target.value).getTime())
+  }
 
-  return (
-    <>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Header data={data.metadata} />
-      <Body date={date} setDate={setDate} data={data} toggleDropdown={toggleDropdown} setToggleDropdown={setToggleDropdown} />
-      <Footer />
-    </>
+  const endDateHandler = e => {
+    setEndDate(new Date(e.target.value).getTime())
+  }
 
-  )
+  console.log('series.length : ', series.length)
+  console.log('startDate : ', startDate)
+  console.log('endDate : ', endDate)
+  console.log('series[0] : ', series[0])
+
+  if (series.length === 0) {
+    return (
+      <div className="App">
+        No VALUE
+      </div>
+    );
+  } else {
+    return (
+      <div className="App">
+        <div style={{width: '70%', margin: '30 auto'}} >
+          <MyApexChart series={series.filter(s => startDate <= s[0] && s[0] <= endDate ) } />
+        </div>
+        <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
+          <div>Select the date range</div>
+          <input type='date' onChange={startDateHandler}  placeholder="start date"  />
+          <input type='date' onChange={endDateHandler} placeholder="end date" />
+        </div>
+      </div>
+    )
+  }
+
+
+
 }
-
-export default App;
